@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
-import { buildMeta, trustSignals } from "@/lib/site-content";
+import { buildMeta, buildingImage, overviewImage, trustSignals } from "@/lib/site-content";
 
 export const Route = createFileRoute("/company")({
   head: () =>
@@ -30,7 +30,7 @@ function CompanyPage() {
       <section className="site-section">
         <div className="site-container grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div className="split-visual min-h-[28rem] order-last lg:order-first">
-            <img src="/assets/oviedo-building.png" alt="Oviedo Properties development project exterior" loading="lazy" />
+            <img src={overviewImage} alt="Oviedo Properties development project exterior" loading="lazy" />
           </div>
           <div>
             <h2 className="section-title max-w-2xl">Creating innovative and sustainable real estate solutions.</h2>
@@ -47,7 +47,11 @@ function CompanyPage() {
       </section>
 
       <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-3">
+        <div className="site-container grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
+          <div className="split-visual min-h-[24rem]">
+            <img src={buildingImage} alt="Oviedo Properties exterior architecture detail" loading="lazy" />
+          </div>
+          <div className="grid gap-6 md:grid-cols-1">
           {trustSignals.map((signal) => (
             <article key={signal} className="service-card">
               <p className="eyebrow">Our Foundation</p>
@@ -57,6 +61,7 @@ function CompanyPage() {
               </p>
             </article>
           ))}
+          </div>
         </div>
       </section>
 
