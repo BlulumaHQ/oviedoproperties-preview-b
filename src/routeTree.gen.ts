@@ -15,7 +15,6 @@ import { Route as CustomerCareRouteImport } from './routes/customer-care'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CompanyRouteImport } from './routes/company'
 import { Route as CommercialRouteImport } from './routes/commercial'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsProjectSlugRouteImport } from './routes/projects.$projectSlug'
 
 const ResidentialRoute = ResidentialRouteImport.update({
@@ -48,11 +47,6 @@ const CommercialRoute = CommercialRouteImport.update({
   path: '/commercial',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProjectsProjectSlugRoute = ProjectsProjectSlugRouteImport.update({
   id: '/projects/$projectSlug',
   path: '/projects/$projectSlug',
@@ -60,7 +54,6 @@ const ProjectsProjectSlugRoute = ProjectsProjectSlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/commercial': typeof CommercialRoute
   '/company': typeof CompanyRoute
   '/contact': typeof ContactRoute
@@ -70,7 +63,6 @@ export interface FileRoutesByFullPath {
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/commercial': typeof CommercialRoute
   '/company': typeof CompanyRoute
   '/contact': typeof ContactRoute
@@ -81,7 +73,6 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/commercial': typeof CommercialRoute
   '/company': typeof CompanyRoute
   '/contact': typeof ContactRoute
@@ -93,7 +84,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/commercial'
     | '/company'
     | '/contact'
@@ -103,7 +93,6 @@ export interface FileRouteTypes {
     | '/projects/$projectSlug'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/commercial'
     | '/company'
     | '/contact'
@@ -113,7 +102,6 @@ export interface FileRouteTypes {
     | '/projects/$projectSlug'
   id:
     | '__root__'
-    | '/'
     | '/commercial'
     | '/company'
     | '/contact'
@@ -124,7 +112,6 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   CommercialRoute: typeof CommercialRoute
   CompanyRoute: typeof CompanyRoute
   ContactRoute: typeof ContactRoute
@@ -178,13 +165,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommercialRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/projects/$projectSlug': {
       id: '/projects/$projectSlug'
       path: '/projects/$projectSlug'
@@ -196,7 +176,6 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   CommercialRoute: CommercialRoute,
   CompanyRoute: CompanyRoute,
   ContactRoute: ContactRoute,
