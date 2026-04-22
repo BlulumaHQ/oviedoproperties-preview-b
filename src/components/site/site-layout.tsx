@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Menu, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,25 +14,46 @@ import {
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const headerNavigationItems = navigationItems.filter(
-    (item) => item.to !== "/" && item.to !== "/contact",
+  const headerNavigationItems = navigationItems.filter((item) =>
+    ["/", "/company", "/contact"].includes(item.to),
   );
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur-md">
-        <div className="site-container flex min-h-24 items-center justify-between gap-6 py-4">
+      <header
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "border-b border-border/60 bg-background/92 shadow-[var(--shadow-soft)] backdrop-blur-xl"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="site-container py-4">
+          <div
+            className={`flex min-h-20 items-center justify-between gap-4 rounded-full px-4 md:px-6 ${
+              scrolled ? "bg-background/70" : "bg-background/20 backdrop-blur-md"
+            }`}
+          >
           <Link aria-label="Oviedo Properties home" className="shrink-0" to="/">
             <img
               src="/assets/oviedo-logo.png"
               alt="Oviedo Properties"
-              className="h-[75px] w-auto object-contain"
+              className="h-[58px] w-auto object-contain md:h-[64px]"
             />
           </Link>
 
-          <div className="hidden flex-1 items-center justify-end gap-8 xl:flex">
-            <nav className="flex items-center gap-4 2xl:gap-6" aria-label="Primary navigation">
+          <div className="hidden flex-1 items-center justify-end gap-5 xl:flex">
+            <nav className="flex items-center gap-8" aria-label="Primary navigation">
               {headerNavigationItems.map((item) => (
                 <Link
                   key={item.to}
@@ -44,40 +66,47 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               ))}
             </nav>
 
-            <Button asChild size="lg" variant="hero">
-              <Link to="/contact">Contact Us</Link>
+            <Button asChild size="lg" variant="hero" className="min-w-[13rem] rounded-full px-7">
+              <Link to="/contact">Book Consultation</Link>
             </Button>
           </div>
 
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md border border-border px-4 py-3 text-sm font-semibold tracking-[0.14em] text-foreground uppercase xl:hidden"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground backdrop-blur xl:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             aria-label="toggle menu"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            Menu
+            <Menu size={20} />
           </button>
+        </div>
         </div>
 
         {menuOpen && (
-          <div id="mobile-navigation" className="border-t border-border bg-background xl:hidden">
+          <div id="mobile-navigation" className="border-t border-border/60 bg-background/95 backdrop-blur-xl xl:hidden">
             <div className="site-container flex flex-col gap-2 py-5">
               {headerNavigationItems.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="rounded-md px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-accent"
-                  activeProps={{ className: "rounded-md bg-accent px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-primary" }}
+                  className="rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-accent"
+                  activeProps={{ className: "rounded-2xl bg-accent px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-primary" }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
-              <Button asChild size="lg" variant="hero" className="mt-3 w-full">
+              <Button asChild size="lg" variant="hero" className="mt-3 h-12 w-full rounded-full">
                 <Link to="/contact" onClick={() => setMenuOpen(false)}>
-                  Contact Us
+                  Get Free Valuation
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-12 w-full rounded-full">
+                <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                  <Phone />
+                  Book Consultation
                 </Link>
               </Button>
             </div>
@@ -87,15 +116,19 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
 
       <main key={pathname}>{children}</main>
 
-      <footer className="border-t border-border bg-muted/35">
+      <footer className="border-t border-border/60 bg-section-tint/35">
         <div className="site-container site-section-tight">
           <div className="footer-grid">
             <div className="space-y-5">
               <p className="footer-wordmark">{SITE_NAME}</p>
               <p className="max-w-sm text-sm leading-7 text-muted-foreground">
-                Crafting quality, creating legacy through integrated residential, commercial,
-                rental, and property management solutions across Surrey, British Columbia.
+                Premium real estate development, leasing, and property expertise across Surrey and the Lower Mainland.
               </p>
+              <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                <span>Trusted development partner</span>
+                <span className="h-1 w-1 rounded-full bg-primary" />
+                <span>Surrey, BC</span>
+              </div>
             </div>
 
             <div aria-hidden="true" className="hidden lg:block" />
@@ -105,7 +138,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
                 Navigation
               </p>
               <div className="mt-4 flex flex-col">
-                {navigationItems.map((item) => (
+                {headerNavigationItems.map((item) => (
                   <Link key={item.to} to={item.to} className="footer-link" activeOptions={{ exact: item.to === "/" }}>
                     {item.label}
                   </Link>
@@ -146,6 +179,16 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
                   </a>
                 </p>
               </div>
+            </div>
+
+            <div className="rounded-lg border border-border/70 bg-background/80 p-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-foreground">Start the conversation</p>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                Book a private consultation to discuss development, leasing, or investment opportunities.
+              </p>
+              <Button asChild size="lg" variant="hero" className="mt-5 h-11 w-full rounded-full">
+                <Link to="/contact">Book Consultation</Link>
+              </Button>
             </div>
           </div>
         </div>
