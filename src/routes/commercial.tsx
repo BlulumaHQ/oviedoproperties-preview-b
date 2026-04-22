@@ -96,7 +96,7 @@ function CommercialPage() {
                 Talk with Oviedo Properties about commercial development and management opportunities.
               </h2>
             </div>
-            <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/6 text-primary-foreground hover:bg-white/12 hover:text-primary-foreground">
+            <Button asChild size="lg" variant="inverse">
               <Link to="/contact">Contact Us</Link>
             </Button>
           </div>
