@@ -1,6 +1,10 @@
 export const SITE_NAME = "Oviedo Properties";
 export const SITE_URL = "https://oviedoproperties.com";
-export const DEFAULT_OG_IMAGE = "/assets/oviedo-building.png";
+export const DEFAULT_OG_IMAGE = "/assets/oviedo-og.jpg";
+export const heroBackgroundVideo = "/assets/oviedo-hero-bg.mp4";
+export const heroShowcaseVideo = "/assets/oviedo-hero-slide.mp4";
+export const buildingImage = "/assets/oviedo-building.png";
+export const overviewImage = "/assets/oviedo-og.jpg";
 
 export const primaryPhone = "778.218.2662";
 export const primaryEmail = "info@oviedoproperties.com";
