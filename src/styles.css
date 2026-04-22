@@ -229,11 +229,15 @@
   }
 
   .site-nav-link {
-    @apply text-sm font-semibold tracking-[0.12em] text-foreground/78 uppercase transition-colors duration-200 hover:text-primary;
+    @apply text-[0.78rem] font-semibold tracking-[0.12em] text-foreground/78 uppercase transition-colors duration-200 hover:text-primary;
   }
 
   .site-nav-link[data-status="active"] {
     @apply text-primary;
+  }
+
+  .header-shell {
+    @apply rounded-full border shadow-[var(--shadow-soft)] backdrop-blur-md;
   }
 
   .hero-frame {
@@ -264,7 +268,12 @@
   }
 
   .service-card {
-    @apply flex h-full flex-col justify-between rounded-[1.5rem] border border-border bg-card p-8 transition-transform duration-300 hover:-translate-y-1;
+    @apply flex h-full flex-col justify-between rounded-[1.25rem] border border-border bg-card p-8 transition-transform duration-300 hover:-translate-y-1;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .listing-card {
+    @apply flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-border bg-card;
     box-shadow: var(--shadow-soft);
   }
 
