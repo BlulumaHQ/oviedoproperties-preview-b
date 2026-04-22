@@ -165,11 +165,17 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
                 Navigation
               </p>
               <div className="mt-4 flex flex-col">
-                {headerNavigationItems.map((item) => (
-                  <Link key={item.to} to={item.to} className="footer-link" activeOptions={{ exact: item.to === "/" }}>
-                    {item.label}
-                  </Link>
-                ))}
+                {headerNavigationItems.map((item) =>
+                  item.type === "route" ? (
+                    <Link key={item.label} to={item.href} className="footer-link" activeOptions={{ exact: item.href === "/" }}>
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a key={item.label} href={item.href} className="footer-link">
+                      {item.label}
+                    </a>
+                  ),
+                )}
               </div>
             </div>
 
