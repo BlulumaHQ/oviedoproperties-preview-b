@@ -4,7 +4,6 @@ import { Menu, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
-  navigationItems,
   primaryEmail,
   primaryPhone,
   services,
@@ -16,9 +15,14 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const headerNavigationItems = navigationItems.filter((item) =>
-    ["/", "/company", "/contact"].includes(item.to),
-  );
+  const headerNavigationItems = [
+    { label: "Home", href: "/", type: "route" as const },
+    { label: "Services", href: "/#services", type: "anchor" as const },
+    { label: "Listings", href: "/residential", type: "route" as const },
+    { label: "About", href: "/company", type: "route" as const },
+    { label: "Testimonials", href: "/#testimonials", type: "anchor" as const },
+    { label: "Contact", href: "/contact", type: "route" as const },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -29,84 +33,107 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "border-b border-border/60 bg-background/92 shadow-[var(--shadow-soft)] backdrop-blur-xl"
+            ? "bg-background/88 shadow-[var(--shadow-soft)] backdrop-blur-xl"
             : "bg-transparent"
         }`}
       >
-        <div className="site-container py-4">
+        <div className="site-container py-3 md:py-4">
           <div
-            className={`flex min-h-20 items-center justify-between gap-4 rounded-full px-4 md:px-6 ${
-              scrolled ? "bg-background/70" : "bg-background/20 backdrop-blur-md"
+            className={`flex items-center justify-between gap-4 px-4 py-3 md:px-5 ${
+              scrolled
+                ? "header-shell border-border/60 bg-background/92"
+                : "header-shell border-white/10 bg-background/18"
             }`}
           >
-          <Link aria-label="Oviedo Properties home" className="shrink-0" to="/">
-            <img
-              src="/assets/oviedo-logo.png"
-              alt="Oviedo Properties"
-              className="h-[58px] w-auto object-contain md:h-[64px]"
-            />
-          </Link>
+            <Link aria-label="Oviedo Properties home" className="shrink-0" to="/">
+              <img
+                src="/assets/oviedo-logo.png"
+                alt="Oviedo Properties"
+                className="h-[30px] w-auto object-contain md:h-[36px]"
+              />
+            </Link>
 
-          <div className="hidden flex-1 items-center justify-end gap-5 xl:flex">
-            <nav className="flex items-center gap-8" aria-label="Primary navigation">
-              {headerNavigationItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="site-nav-link"
-                  activeProps={{ className: "site-nav-link text-primary" }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
+              <nav className="flex items-center gap-5 xl:gap-7" aria-label="Primary navigation">
+                {headerNavigationItems.map((item) =>
+                  item.type === "route" ? (
+                    <Link
+                      key={item.label}
+                      to={item.href}
+                      className="site-nav-link"
+                      activeProps={{ className: "site-nav-link text-primary" }}
+                      activeOptions={{ exact: item.href === "/" }}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a key={item.label} href={item.href} className="site-nav-link">
+                      {item.label}
+                    </a>
+                  ),
+                )}
+              </nav>
 
-            <Button asChild size="lg" variant="hero" className="min-w-[13rem] rounded-full px-7">
-              <Link to="/contact">Book Consultation</Link>
-            </Button>
+              <Button asChild size="lg" variant="hero" className="min-w-[13rem] rounded-full px-6">
+                <Link to="/contact">Book a Consultation</Link>
+              </Button>
+            </div>
+
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/85 text-foreground backdrop-blur lg:hidden"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+              aria-label="toggle menu"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <Menu size={19} />
+            </button>
           </div>
-
-          <button
-            type="button"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground backdrop-blur xl:hidden"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-            aria-label="toggle menu"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <Menu size={20} />
-          </button>
-        </div>
         </div>
 
         {menuOpen && (
-          <div id="mobile-navigation" className="border-t border-border/60 bg-background/95 backdrop-blur-xl xl:hidden">
+          <div id="mobile-navigation" className="border-t border-border/60 bg-background/95 backdrop-blur-xl lg:hidden">
             <div className="site-container flex flex-col gap-2 py-5">
               {headerNavigationItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-accent"
-                  activeProps={{ className: "rounded-2xl bg-accent px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-primary" }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
+                item.type === "route" ? (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="rounded-xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-accent"
+                    activeProps={{ className: "rounded-xl bg-accent px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-primary" }}
+                    activeOptions={{ exact: item.href === "/" }}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="rounded-xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-accent"
+                  >
+                    {item.label}
+                  </a>
+                )
               ))}
               <Button asChild size="lg" variant="hero" className="mt-3 h-12 w-full rounded-full">
                 <Link to="/contact" onClick={() => setMenuOpen(false)}>
-                  Get Free Valuation
+                  Get a Free Home Evaluation
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12 w-full rounded-full">
                 <Link to="/contact" onClick={() => setMenuOpen(false)}>
                   <Phone />
-                  Book Consultation
+                  Book a Consultation
                 </Link>
               </Button>
             </div>
