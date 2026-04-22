@@ -46,6 +46,12 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Oviedo Properties" },
+      { name: "description", content: "Oviedo Properties builds sustainable commercial, residential, and rental properties in Surrey, BC." },
+      { property: "og:description", content: "Oviedo Properties builds sustainable commercial, residential, and rental properties in Surrey, BC." },
+      { name: "twitter:description", content: "Oviedo Properties builds sustainable commercial, residential, and rental properties in Surrey, BC." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/76630afa-b4d1-4433-836f-bfab89a64b4f/id-preview-3393579b--ca878b19-96d9-4e70-93bc-92c7968837e8.lovable.app-1776881479541.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/76630afa-b4d1-4433-836f-bfab89a64b4f/id-preview-3393579b--ca878b19-96d9-4e70-93bc-92c7968837e8.lovable.app-1776881479541.png" },
     ],
     links: [
       {
