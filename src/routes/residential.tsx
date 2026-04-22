@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
-import { buildMeta } from "@/lib/site-content";
+import { buildingImage, buildMeta, overviewImage } from "@/lib/site-content";
 
 export const Route = createFileRoute("/residential")({
   head: () =>
@@ -42,13 +42,17 @@ function ResidentialPage() {
             </ul>
           </div>
           <div className="split-visual min-h-[28rem]">
-            <img src="/assets/oviedo-building.png" alt="Residential property exterior developed by Oviedo Properties" loading="lazy" />
+            <img src={buildingImage} alt="Residential property exterior developed by Oviedo Properties" loading="lazy" />
           </div>
         </div>
       </section>
 
       <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-3">
+        <div className="site-container grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-stretch">
+          <div className="split-visual min-h-[24rem]">
+            <img src={overviewImage} alt="Oviedo Properties residential project overview" loading="lazy" />
+          </div>
+          <div className="grid gap-6 md:grid-cols-1">
           <article className="service-card">
             <div>
               <p className="eyebrow">Built to Last</p>
@@ -76,6 +80,7 @@ function ResidentialPage() {
               </p>
             </div>
           </article>
+          </div>
         </div>
       </section>
 
