@@ -14,6 +14,9 @@ import {
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const headerNavigationItems = navigationItems.filter(
+    (item) => item.to !== "/" && item.to !== "/contact",
+  );
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -27,21 +30,20 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             />
           </Link>
 
-          <nav className="hidden items-center gap-6 xl:flex" aria-label="Primary navigation">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="site-nav-link"
-                activeProps={{ className: "site-nav-link text-primary" }}
-                activeOptions={{ exact: item.to === "/" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden flex-1 items-center justify-end gap-8 xl:flex">
+            <nav className="flex items-center gap-4 2xl:gap-6" aria-label="Primary navigation">
+              {headerNavigationItems.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="site-nav-link"
+                  activeProps={{ className: "site-nav-link text-primary" }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
 
-          <div className="hidden xl:block">
             <Button asChild size="lg" variant="hero">
               <Link to="/contact">Contact Us</Link>
             </Button>
@@ -62,13 +64,12 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         {menuOpen && (
           <div id="mobile-navigation" className="border-t border-border bg-background xl:hidden">
             <div className="site-container flex flex-col gap-2 py-5">
-              {navigationItems.map((item) => (
+              {headerNavigationItems.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
                   className="rounded-md px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-accent"
                   activeProps={{ className: "rounded-md bg-accent px-4 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-primary" }}
-                  activeOptions={{ exact: item.to === "/" }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
