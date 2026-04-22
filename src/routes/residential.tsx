@@ -1,7 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
+import { ProjectCard } from "@/components/site/project-card";
 import { Button } from "@/components/ui/button";
-import { buildingImage, buildMeta, overviewImage } from "@/lib/site-content";
+import { categoryHeroVideos, getProjectsByCategory } from "@/lib/project-data";
+import { buildMeta } from "@/lib/site-content";
 
 export const Route = createFileRoute("/residential")({
   head: () =>
@@ -14,72 +16,42 @@ export const Route = createFileRoute("/residential")({
 });
 
 function ResidentialPage() {
+  const projects = getProjectsByCategory("residential");
+
   return (
     <>
       <section className="page-banner site-section-tight">
-        <div className="site-container max-w-5xl">
+        <div className="site-container grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+          <div>
           <p className="eyebrow">Residential</p>
-          <h1 className="page-title max-w-3xl">Homes designed for lasting memories and enduring quality.</h1>
+          <h1 className="page-title max-w-3xl">Residential projects backed by real Oviedo developments.</h1>
           <p className="mt-6 lede">
-            We build more than homes, we create spaces for lasting memories, designed to stand the test of time.
+            Browse the original residential portfolio, including active developments, completed communities, and individual project pages built from Oviedo Properties&apos; real website content and imagery.
           </p>
+          </div>
+          <div className="split-visual min-h-[18rem] overflow-hidden">
+            <video className="h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata">
+              <source src={categoryHeroVideos.residential} type="video/mp4" />
+            </video>
+          </div>
         </div>
       </section>
 
       <section className="site-section">
-        <div className="site-container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <h2 className="section-title max-w-2xl">Thoughtful residential development with a clear long-term view.</h2>
-            <p className="mt-6 lede">
-              Oviedo Properties approaches residential development with an integrated perspective that connects
-              planning, construction, and ongoing property stewardship. The result is a home experience shaped by
-              quality materials, practical design, and enduring value.
+        <div className="site-container">
+          <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="eyebrow">Portfolio</p>
+              <h2 className="section-title">{projects.length} real residential projects</h2>
+            </div>
+            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+              Each card links to an individual project page with original project descriptions and gallery images.
             </p>
-            <ul className="bullet-list mt-8 max-w-xl">
-              <li>Integrated development and construction oversight from concept through completion.</li>
-              <li>Quality-focused homes created to serve residents today and stand strong over time.</li>
-              <li>Local expertise rooted in Surrey, British Columbia and surrounding communities.</li>
-            </ul>
           </div>
-          <div className="split-visual min-h-[28rem]">
-            <img src={buildingImage} alt="Residential property exterior developed by Oviedo Properties" loading="lazy" />
-          </div>
-        </div>
-      </section>
-
-      <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-stretch">
-          <div className="split-visual min-h-[24rem]">
-            <img src={overviewImage} alt="Oviedo Properties residential project overview" loading="lazy" />
-          </div>
-          <div className="grid gap-6 md:grid-cols-1">
-          <article className="service-card">
-            <div>
-              <p className="eyebrow">Built to Last</p>
-              <h2 className="text-2xl leading-tight text-foreground">Durable execution</h2>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                Every project is shaped with careful attention to build quality, practical use, and long-term performance.
-              </p>
-            </div>
-          </article>
-          <article className="service-card">
-            <div>
-              <p className="eyebrow">Livable Design</p>
-              <h2 className="text-2xl leading-tight text-foreground">Comfort first</h2>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                Homes are planned for everyday living, with spaces that support both routine life and memorable moments.
-              </p>
-            </div>
-          </article>
-          <article className="service-card">
-            <div>
-              <p className="eyebrow">Local Focus</p>
-              <h2 className="text-2xl leading-tight text-foreground">Surrey perspective</h2>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                Our local understanding helps shape developments that feel rooted, relevant, and responsive to the market.
-              </p>
-            </div>
-          </article>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {projects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
           </div>
         </div>
       </section>

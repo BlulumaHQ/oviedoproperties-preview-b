@@ -1,7 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
+import { ProjectCard } from "@/components/site/project-card";
 import { Button } from "@/components/ui/button";
-import { buildingImage, buildMeta, overviewImage } from "@/lib/site-content";
+import { categoryHeroVideos, getProjectsByCategory } from "@/lib/project-data";
+import { buildMeta } from "@/lib/site-content";
 
 export const Route = createFileRoute("/rental")({
   head: () =>
@@ -14,65 +16,42 @@ export const Route = createFileRoute("/rental")({
 });
 
 function RentalPage() {
+  const projects = getProjectsByCategory("rental");
+
   return (
     <>
       <section className="page-banner site-section-tight">
-        <div className="site-container max-w-5xl">
+        <div className="site-container grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+          <div>
           <p className="eyebrow">Rental</p>
-          <h1 className="page-title max-w-3xl">Rental homes managed with care by our dedicated in-house team.</h1>
+          <h1 className="page-title max-w-3xl">Rental projects with real availability context and project details.</h1>
           <p className="mt-6 lede">
-            We offer rental homes in desirable neighborhoods, managed by our dedicated in-house team.
+            View the actual Oviedo rental portfolio, using the real project summaries, status labels, and photo galleries from the original website.
           </p>
+          </div>
+          <div className="split-visual min-h-[18rem] overflow-hidden">
+            <video className="h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata">
+              <source src={categoryHeroVideos.rental} type="video/mp4" />
+            </video>
+          </div>
         </div>
       </section>
 
       <section className="site-section">
-        <div className="site-container grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div>
-            <h2 className="section-title max-w-2xl">A rental experience built on responsiveness and quality.</h2>
-            <p className="mt-6 lede">
-              Oviedo Properties combines development knowledge with hands-on management so rental communities can be
-              supported with consistency, practical care, and a strong standard for the resident experience.
+        <div className="site-container">
+          <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="eyebrow">Portfolio</p>
+              <h2 className="section-title">{projects.length} real rental projects</h2>
+            </div>
+            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+              Every rental card opens its own project page with authentic imagery and source-derived details.
             </p>
-            <ul className="bullet-list mt-8 max-w-xl">
-              <li>Homes located in desirable neighborhoods with a focus on comfort and livability.</li>
-              <li>Dedicated in-house team support for ongoing property oversight and resident care.</li>
-              <li>A quality-driven approach that helps maintain long-term value across the portfolio.</li>
-            </ul>
           </div>
-          <div className="split-visual min-h-[28rem]">
-            <img src={buildingImage} alt="Rental property managed by Oviedo Properties" loading="lazy" />
-          </div>
-        </div>
-      </section>
-
-      <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
-          <div className="grid gap-6 md:grid-cols-1">
-          <article className="service-card">
-            <p className="eyebrow">Neighborhoods</p>
-            <h2 className="text-2xl leading-tight text-foreground">Well-situated homes</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              Rental opportunities are centered in desirable locations that support daily convenience and comfort.
-            </p>
-          </article>
-          <article className="service-card">
-            <p className="eyebrow">Management</p>
-            <h2 className="text-2xl leading-tight text-foreground">In-house oversight</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              A dedicated team manages operations with close attention to care, consistency, and responsiveness.
-            </p>
-          </article>
-          <article className="service-card">
-            <p className="eyebrow">Experience</p>
-            <h2 className="text-2xl leading-tight text-foreground">Resident-focused service</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              The goal is a rental experience that feels stable, well maintained, and thoughtfully supported.
-            </p>
-          </article>
-          </div>
-          <div className="split-visual min-h-[24rem]">
-            <img src={overviewImage} alt="Oviedo Properties rental portfolio overview" loading="lazy" />
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {projects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
           </div>
         </div>
       </section>
