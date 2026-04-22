@@ -1,7 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
+import { ProjectCard } from "@/components/site/project-card";
 import { Button } from "@/components/ui/button";
-import { buildingImage, buildMeta, overviewImage } from "@/lib/site-content";
+import { categoryHeroVideos, getProjectsByCategory } from "@/lib/project-data";
+import { buildMeta } from "@/lib/site-content";
 
 export const Route = createFileRoute("/commercial")({
   head: () =>
@@ -14,80 +16,42 @@ export const Route = createFileRoute("/commercial")({
 });
 
 function CommercialPage() {
+  const projects = getProjectsByCategory("commercial");
+
   return (
     <>
       <section className="page-banner site-section-tight">
-        <div className="site-container max-w-5xl">
+        <div className="site-container grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+          <div>
           <p className="eyebrow">Commercial</p>
-          <h1 className="page-title max-w-3xl">Commercial spaces shaped around quality and user experience.</h1>
+          <h1 className="page-title max-w-3xl">Commercial projects with real leasing and property information.</h1>
           <p className="mt-6 lede">
-            We specialize in building quality and managing retail, industrial, and office spaces, prioritizing the user experiences.
+            Explore Oviedo Properties&apos; commercial portfolio using the original project imagery, status labels, and individual project detail content from the live website.
           </p>
+          </div>
+          <div className="split-visual min-h-[18rem] overflow-hidden">
+            <video className="h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata">
+              <source src={categoryHeroVideos.commercial} type="video/mp4" />
+            </video>
+          </div>
         </div>
       </section>
 
       <section className="site-section">
-        <div className="site-container grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div className="split-visual min-h-[28rem] order-last lg:order-first">
-            <img src={overviewImage} alt="Commercial development exterior from Oviedo Properties" loading="lazy" />
-          </div>
-          <div>
-            <h2 className="section-title max-w-2xl">Commercial development backed by integrated oversight.</h2>
-            <p className="mt-6 lede">
-              From retail settings to industrial and office environments, our work emphasizes sound execution,
-              operational functionality, and an experience that serves both businesses and the people who use the space every day.
-            </p>
-            <div className="mt-8 grid gap-5 md:grid-cols-2">
-              <div className="surface-panel p-6">
-                <p className="eyebrow">Retail</p>
-                <p className="text-sm leading-7 text-muted-foreground">
-                  Spaces designed to support visibility, access, and a smooth customer journey.
-                </p>
-              </div>
-              <div className="surface-panel p-6">
-                <p className="eyebrow">Industrial</p>
-                <p className="text-sm leading-7 text-muted-foreground">
-                  Practical facilities planned around performance, flow, and day-to-day usability.
-                </p>
-              </div>
-              <div className="surface-panel p-6 md:col-span-2">
-                <p className="eyebrow">Office</p>
-                <p className="text-sm leading-7 text-muted-foreground">
-                  Professional environments that balance efficient layouts with a refined experience for teams and visitors.
-                </p>
-              </div>
+        <div className="site-container">
+          <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="eyebrow">Portfolio</p>
+              <h2 className="section-title">{projects.length} real commercial projects</h2>
             </div>
+            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+              Includes live leasing-oriented properties and direct links to each dedicated project detail page.
+            </p>
           </div>
-        </div>
-      </section>
-
-      <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-[0.95fr_1.05fr] md:items-stretch">
-          <div className="split-visual min-h-[24rem]">
-            <img src={buildingImage} alt="Oviedo Properties building exterior detail" loading="lazy" />
-          </div>
-          <div className="grid gap-6 md:grid-cols-1">
-          <article className="service-card">
-            <p className="eyebrow">Development</p>
-            <h2 className="text-2xl leading-tight text-foreground">End-to-end coordination</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              An integrated model helps keep development aligned from planning to delivery.
-            </p>
-          </article>
-          <article className="service-card">
-            <p className="eyebrow">Construction</p>
-            <h2 className="text-2xl leading-tight text-foreground">Quality-first execution</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              Strong attention to build quality supports durability, presentation, and long-term performance.
-            </p>
-          </article>
-          <article className="service-card">
-            <p className="eyebrow">Management</p>
-            <h2 className="text-2xl leading-tight text-foreground">User-centered spaces</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              Each environment is approached with the end user experience as a key priority.
-            </p>
-          </article>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {projects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
           </div>
         </div>
       </section>
