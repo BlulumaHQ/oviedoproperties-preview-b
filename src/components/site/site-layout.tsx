@@ -22,7 +22,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
     { label: "About", href: "/company", type: "route" as const },
     { label: "Testimonials", href: "/#testimonials", type: "anchor" as const },
     { label: "Contact", href: "/contact", type: "route" as const },
-  ];
+  ] as const;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
