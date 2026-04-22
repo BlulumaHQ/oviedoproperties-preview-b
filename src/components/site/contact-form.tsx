@@ -25,8 +25,7 @@ export function ContactForm() {
         `Phone: ${formData.phone}`,
         "",
         formData.message,
-      ].join("
-"),
+      ].join("\n"),
     );
 
     window.location.href = `mailto:info@oviedoproperties.com?subject=${subject}&body=${body}`;
