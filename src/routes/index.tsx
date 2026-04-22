@@ -1,7 +1,15 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
-import { buildMeta, services, trustSignals } from "@/lib/site-content";
+import {
+  buildMeta,
+  buildingImage,
+  heroBackgroundVideo,
+  heroShowcaseVideo,
+  overviewImage,
+  services,
+  trustSignals,
+} from "@/lib/site-content";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -20,10 +28,17 @@ function Index() {
         <div className="site-container">
           <div className="hero-frame">
             <div className="grid min-h-[38rem] lg:grid-cols-[1.2fr_0.8fr]">
-              <div
-                className="relative flex flex-col justify-between gap-10 px-6 py-12 text-primary-foreground sm:px-10 lg:px-12 lg:py-14"
-                style={{ backgroundImage: "url('/assets/oviedo-building.png')", backgroundPosition: "center", backgroundSize: "cover" }}
-              >
+              <div className="relative flex flex-col justify-between gap-10 overflow-hidden px-6 py-12 text-primary-foreground sm:px-10 lg:px-12 lg:py-14">
+                <video
+                  className="absolute inset-0 h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                >
+                  <source src={heroBackgroundVideo} type="video/mp4" />
+                </video>
                 <div className="hero-overlay absolute inset-0" />
                 <div className="relative z-10 max-w-3xl">
                   <span className="eyebrow text-primary-foreground/82">Property Management Company</span>
@@ -79,6 +94,11 @@ function Index() {
                     We invest, develop, and manage diverse properties with an approach that balances strong
                     execution, lasting value, and a refined experience for owners, residents, and commercial users.
                   </p>
+                  <div className="split-visual mt-8 min-h-[16rem] overflow-hidden">
+                    <video className="h-full w-full object-cover" autoPlay loop muted playsInline preload="metadata">
+                      <source src={heroShowcaseVideo} type="video/mp4" />
+                    </video>
+                  </div>
                 </div>
                 <div className="trust-strip mt-10">
                   {trustSignals.map((signal) => (
@@ -113,7 +133,7 @@ function Index() {
       <section className="site-section bg-section-tint/45">
         <div className="site-container grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="split-visual min-h-[24rem]">
-            <img src="/assets/oviedo-building.png" alt="Modern Oviedo Properties development exterior" loading="lazy" />
+            <img src={overviewImage} alt="Modern Oviedo Properties development exterior" loading="lazy" />
           </div>
           <div>
             <span className="eyebrow">About Us</span>

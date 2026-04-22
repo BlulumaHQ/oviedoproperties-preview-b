@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
-import { buildMeta } from "@/lib/site-content";
+import { buildingImage, buildMeta, overviewImage } from "@/lib/site-content";
 
 export const Route = createFileRoute("/rental")({
   head: () =>
@@ -41,13 +41,14 @@ function RentalPage() {
             </ul>
           </div>
           <div className="split-visual min-h-[28rem]">
-            <img src="/assets/oviedo-building.png" alt="Rental property managed by Oviedo Properties" loading="lazy" />
+            <img src={buildingImage} alt="Rental property managed by Oviedo Properties" loading="lazy" />
           </div>
         </div>
       </section>
 
       <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-3">
+        <div className="site-container grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
+          <div className="grid gap-6 md:grid-cols-1">
           <article className="service-card">
             <p className="eyebrow">Neighborhoods</p>
             <h2 className="text-2xl leading-tight text-foreground">Well-situated homes</h2>
@@ -69,6 +70,10 @@ function RentalPage() {
               The goal is a rental experience that feels stable, well maintained, and thoughtfully supported.
             </p>
           </article>
+          </div>
+          <div className="split-visual min-h-[24rem]">
+            <img src={overviewImage} alt="Oviedo Properties rental portfolio overview" loading="lazy" />
+          </div>
         </div>
       </section>
 

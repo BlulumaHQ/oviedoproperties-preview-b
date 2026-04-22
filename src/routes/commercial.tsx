@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
-import { buildMeta } from "@/lib/site-content";
+import { buildingImage, buildMeta, overviewImage } from "@/lib/site-content";
 
 export const Route = createFileRoute("/commercial")({
   head: () =>
@@ -29,7 +29,7 @@ function CommercialPage() {
       <section className="site-section">
         <div className="site-container grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div className="split-visual min-h-[28rem] order-last lg:order-first">
-            <img src="/assets/oviedo-building.png" alt="Commercial development exterior from Oviedo Properties" loading="lazy" />
+            <img src={overviewImage} alt="Commercial development exterior from Oviedo Properties" loading="lazy" />
           </div>
           <div>
             <h2 className="section-title max-w-2xl">Commercial development backed by integrated oversight.</h2>
@@ -62,7 +62,11 @@ function CommercialPage() {
       </section>
 
       <section className="site-section bg-section-tint/45">
-        <div className="site-container grid gap-6 md:grid-cols-3">
+        <div className="site-container grid gap-6 md:grid-cols-[0.95fr_1.05fr] md:items-stretch">
+          <div className="split-visual min-h-[24rem]">
+            <img src={buildingImage} alt="Oviedo Properties building exterior detail" loading="lazy" />
+          </div>
+          <div className="grid gap-6 md:grid-cols-1">
           <article className="service-card">
             <p className="eyebrow">Development</p>
             <h2 className="text-2xl leading-tight text-foreground">End-to-end coordination</h2>
@@ -84,6 +88,7 @@ function CommercialPage() {
               Each environment is approached with the end user experience as a key priority.
             </p>
           </article>
+          </div>
         </div>
       </section>
 
