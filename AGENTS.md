@@ -1,0 +1,1 @@
+- Preview-host noindex lives in netlify/edge-functions/preview-noindex.ts (hostname-matched, HTML only); never add global noindex, because custom domains must stay indexable.
